@@ -6,3 +6,15 @@ timetask延时任务scheduleWithFixedDelay    //上一个任务执行结束几�
 ```
 不要再函数行打断点，因为JPDA的原因会一直运行导致调试卡顿
 ```
+
+```
+ServiceConnectio类作为绑定服务类，需要在AndroidManifest里注册的服务，也就是Service,类似
+<service
+            android:name="com.xingkom.facerecognize.service.OfflineLanService"
+            android:enabled="true"
+            android:exported="false" />
+```
+
+```
+
+```
