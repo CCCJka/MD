@@ -24,7 +24,7 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             }
         }
 
-//以下是获取可用的相机有哪些，工控机的话有Camera.CameraInfo.CAMERA_FACING_BACK和CAMERA_FACING_FRONT这两个摄像头。
+//以下是获取可用的相机有哪些，工业板卡的话有Camera.CameraInfo.CAMERA_FACING_BACK和CAMERA_FACING_FRONT这两个摄像头。有时候在工业板卡中这两个都是前置摄像头
 //在安卓手机中，如果正常获取的摄像头无法使用可以尝试使用以上两个。Back是后置摄像头，Front是前置摄像头
         int cameraId = -1;
         int numberOfCameras = Camera.getNumberOfCameras();
