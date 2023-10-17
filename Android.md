@@ -56,5 +56,20 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 ```
 
 ```java
-
+//将activity修改为雷士dialog的样式
+//在style.xml创建风格，然后将风格在androidmanifest设置在activity上就可以了。
+//Example
+<style name="dialog_style" parent="Theme.AppCompat.Light.Dialog">
+        <!--是否悬浮在activity上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--透明是否-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:layout_width">700dp</item>
+        <item name="android:layout_height">500dp</item>
+        <!--设置没有窗口标题、dialog标题等各种标题-->
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+        <!--点击 dialog Activity 周围是否关闭弹窗 true 关闭（默认为true） false 为不关闭-->
+        <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
 ```
