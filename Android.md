@@ -73,3 +73,21 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
 ```
+
+```java
+//在fragment中因为没有activity的ontouchTouchEvent或者dispatchTouchEvent可以取消点击空白处来隐藏软键盘，所以使用onCreateDialog来做到隐藏软键盘的功能
+@NonNull
+@Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return new Dialog(getActivity(), getTheme()) {
+            @Override
+            public boolean dispatchTouchEvent(@NonNull MotionEvent motionEvent) {
+                if (getCurrentFocus() != null) {
+                    InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
+                return super.dispatchTouchEvent(motionEvent);
+            }
+        };
+    }
+```
