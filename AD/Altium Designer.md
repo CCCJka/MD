@@ -1,0 +1,43 @@
+# 常用元器件符号
+
+![image-20230501233000639](C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20230501233000639.png)
+
+![image-20230501233356161](C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20230501233356161.png)
+
+创建文件：
+			文件-新的-项目-项目		//创建工程
+
+​			文件-新的-PCB
+
+​			文件-新的-原理图
+
+​			文件-新的-库-原理图库
+
+​			文件-新的-库-PCB元件库
+
+
+
+### 快捷键
+
++ 空格旋转
+
+### 2按键
+
++ al		左对齐
++ pp		管脚
++ pl         放置线
++ tc		新建元件
+
+### 3按键
+
++ tol  	  选中元件后在框内排列
++ eos		设置原点
++ dsd       重定义PcbDoc的大小
+
+### 配合shift按键
+
++ shirft + e  切换抓取格点
+
+### 配合Ctrl按键
+
++ ctrl + q   转换单位长度
