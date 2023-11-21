@@ -1,8 +1,8 @@
 # 常用元器件符号
 
-![image-20230501233000639](C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20230501233000639.png)
+![image-20230501233000639](..\picture\image-20230501233000639.png)
 
-![image-20230501233356161](C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20230501233356161.png)
+![image-20230501233356161](..\picture\image-20230501233356161.png)
 
 创建文件：
 			文件-新的-项目-项目		//创建工程

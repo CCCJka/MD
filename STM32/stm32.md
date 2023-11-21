@@ -2,7 +2,7 @@
 
 选择芯片型号  —> 关闭创建助手 —> 添加启动的文件 —> 点击魔术棒-c/c++-include path-添加文件夹然后确定
 
-![image-20230323230739121](C:\Users\Insummer\Desktop\markdown\STM32\startfile.png)
+![image-20230323230739121](..\STM32\startfile.png)
 
 
 
@@ -69,7 +69,7 @@ GPIO_InitStructure.GPIO_Speed_50Hz;
 GPIO_Init(GPIOA,&GPIO_InitStructure);
 ```
 
-![](C:\Users\Insummer\Desktop\markdown\STM32\GPIO_MOD.png)
+![](..\STM32\GPIO_MOD.png)
 
 在 STM32 中选用 IO 模式
 

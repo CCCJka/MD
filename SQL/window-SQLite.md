@@ -53,16 +53,16 @@ SQLite关联类型：
     + 逻辑运算符
     + 按位运算符
 
-![image-20220606201926220](C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20220606201926220.png)
+![image-20220606201926220](..\picture\image-20220606201926220.png)
 
-![image-20220606202026915](C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20220606202026915.png)
+![image-20220606202026915](..\picture\image-20220606202026915.png)
 
-![image-20220606202044015](C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20220606202044015.png)
+![image-20220606202044015](..\picture\image-20220606202044015.png)
 
-![image-20220606202102743](C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20220606202102743.png)
+![image-20220606202102743](..\picture\image-20220606202102743.png)
 
-![image-20220606202135257](C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20220606202135257.png)
+![image-20220606202135257](..\picture\image-20220606202135257.png)
 
 
 
-![image-20220606202458019](C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20220606202458019.png)
+![image-20220606202458019](..\picture\image-20220606202458019.png)

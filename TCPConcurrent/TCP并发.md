@@ -1,10 +1,10 @@
 # select函数使用
 
-![image-20220913171714300](C:\Users\Insummer\Desktop\markdown\TCP并发\select.png)
+![image-20220913171714300](..\TCPConcurrent\select.png)
 
-![image-20220913172627092](C:\Users\Insummer\Desktop\markdown\TCP并发\select调用过程.png)
+![image-20220913172627092](..\TCPConcurrent\select调用过程.png)
 
-![image-20220913173051509](C:\Users\Insummer\Desktop\markdown\TCP并发\select函数的宏定义.png)
+![image-20220913173051509](..\TCPConcurrent\select函数的宏定义.png)
 
 ```c
 #include <stdio.h>
@@ -65,4 +65,4 @@ int main(int argc,char *argv[])
 }
 ```
 
-![image-20220914094637389](C:\Users\Insummer\Desktop\markdown\TCP并发\优缺点.png)
+![image-20220914094637389](..\TCPConcurrent\优缺点.png)

@@ -18,9 +18,9 @@ SQLite在ubuntu下的安装：
 
 ​		.schema	查看表的结构图  
 
-![image-20220606204042678](C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20220606204042678.png)
+![image-20220606204042678](..\picture\image-20220606204042678.png)
 
-![image-20220606204128803](C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20220606204128803.png)
+![image-20220606204128803](..\picture\image-20220606204128803.png)
 
 ```C
 	增

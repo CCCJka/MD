@@ -39,9 +39,9 @@ void vApplicationGetIdleTaskMemory(StaticTask_t ** ppxIdleTaskTCBBuffer,StackTyp
 xTaskCreateStatic(Task3Function,"Task3",100,NULL,1,xTask3Stack,&xTask3TCB); 		//创建静态任务
 ```
 
-![image-20220919110237475](C:\Users\Insummer\Desktop\markdown\freeRTOS\创建任务参数.png)
+![image-20220919110237475](..\freeRTOS\创建任务参数.png)
 
-![image-20220919110354458](C:\Users\Insummer\Desktop\markdown\freeRTOS\创建任务参数2.png)
+![image-20220919110354458](..\freeRTOS\创建任务参数2.png)
 
 
 

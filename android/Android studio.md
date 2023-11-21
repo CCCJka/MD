@@ -1,6 +1,6 @@
 ## Intent:
 
-<img src="C:\Users\Insummer\AppData\Roaming\Typora\typora-user-images\image-20230506232249713.png" alt="image-20230506232249713" style="zoom:50%;" />
+<img src="..\picture\image-20230506232249713.png" alt="image-20230506232249713" style="zoom:50%;" />
 
 显式Intent：代码直接写明跳转的Intent，例如：Intent intent = new Intent(this,second.class);
 
