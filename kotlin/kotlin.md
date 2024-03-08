@@ -4,6 +4,15 @@
 
 在kotlin中，使用的不是void，而是Unit
 
+```
+Kotlin中T.()->Unit 、(T) -> Unit 、()->Unit
+这三个都是函数，返回值为unit，可以返回其他值，这里返回Unit只是为了方便理解
+
+T.()->Unit：函数体中可以直接使用T代表的对象，即用this访问T代表的对象。
+(T) -> Unit：将T表示的对象作为实参通过函数参数传递进来，函数体中可以通过参数来访问T代表的对象。
+() -> Unit：和T表示的对象没有直接联系，就是一个普通的函数，没有参数。
+```
+
 #### 函数
 
 ```kotlin
@@ -990,5 +999,13 @@ fun main(){
 }
 //[]操作符取值，可以重载运算符函数get
 例如:box1[0]	//需要进行重载才不报错
+```
+
+### 协程
+
+```kotlin
+GlobalScope.launch(context = Dispatchers.IO){
+            //TODO
+        }
 ```
 
