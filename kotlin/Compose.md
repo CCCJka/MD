@@ -1,8 +1,30 @@
+## Compose中获取Context
+
+```kotlin
+val context = LocalContext.current as Activity //这样做可能会有安全隐患
+
+//google官方例子有这样一个方法
+/**
+ * Find the closest Activity in a given Context.
+ */
+fun Context.findActivity(): Activity {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is Activity) return context
+        context = context.baseContext
+    }
+    throw IllegalStateException("Permissions should be called in the context of an Activity")
+}
+//使用方法
+val context = LocalContext.current
+val activity = context.findActivity()
+```
+
 
 
 ## Modifie的作用
 
-以前，我们在布局中去设置一个控件的大小，间距，点击事件，宽高，背景等属性值。而在Compose中我们是通过Modifie去设置，Modifie相当于一个控件的属性配置的工具类。修饰符大概有如下几种作用
+原生开发中我们使用xml在布局中去设置一个控件的大小，间距，点击事件，宽高，背景等属性值。而在Compose中我们是通过Modifie去设置，Modifie相当于一个控件的属性配置的工具类。修饰符大概有如下几种作用
 
 - 第一：可以去更新可组合项的大小，布局，行为和外观。
 - 第二：添加互动。例如点击，滚动，可拖拽，缩放等。
@@ -106,6 +128,40 @@ Android 提供了一个选项，用于配置屏幕上显示的键盘，以便输
 
 + 将键盘类型设置为数字键盘即可输入数字。向 `KeyboardOptions` 函数传递设置为 `KeyboardType.Number` 的 `keyboardType` 具名形参：
 
+## SnackBar
+
+## Scaffold
+
+Scaffold在我的理解是一个按钮或者布局容器，可以用来创建一个标准布局，他的构造函数有很多，只需要挑选需要的就行创建即可，官方范例如下：
+
+```kotlin
+val scope = rememberCoroutineScope()	//snackBar的显示隐藏需要使用此函数
+    val snackbarHostState = remember { SnackbarHostState() }	//记住snackBar的状态
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
+        floatingActionButton = {		//创建一个悬浮按钮
+            ExtendedFloatingActionButton(
+                text = { Text("Show snackbar") },	//Button显示文本
+                icon = { Icon(Icons.Filled.Share, contentDescription = "") },
+                onClick = {
+                    scope.launch {	//snackBar需要和此函数搭配使用
+                        snackbarHostState.showSnackbar("Snackbar")	//点击按钮后产生的SnackBar的文本
+                    }
+                }
+            )
+        }
+    ) { contentPadding ->
+        TipTimeLayout()
+        Box(modifier = Modifier.padding(contentPadding))
+    }
+```
+
+<font color = "yellow" >remember对key的变化监听,只接受赋值。</font>
+
+
+
 ## WebView范例
 
 ```kotlin
@@ -190,7 +246,7 @@ fun webviewTest(modifier: Modifier = Modifier,
 ```kotlin
 val context = LocalContext.current as Activity //这样做可能会有安全隐患
 val TAG = WebViewActivity::class.qualifiedName  //获取类名
-//使用
+//webView使用
 webviewTest(modifier = Modifier.fillMaxSize(),
             url = "https://www.baidu.com/",
             initSettings = {settings->
@@ -213,6 +269,36 @@ webviewTest(modifier = Modifier.fillMaxSize(),
                     Log.d(TAG,">>>>>>${it?.description}")
                 }
             })
+```
+
+
+
+## Dialog以及AlertDialog
+
+```kotlin
+@Composable
+fun dialogTest(showDialog: () -> Unit){
+    val context = LocalContext.current as Activity	//将context转换为Activity
+        AlertDialog(
+            onDismissRequest = { /*TODO*/ },
+            text = { Text(text = "请确认是否退出") },
+            dismissButton = {
+                Button(onClick = showDialog) {
+                    Text(text = "取消")
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = { context.finish() }
+                ) {
+                    Text(text = "确认")
+            }
+        }
+    )
+}
+
+//使用
+dialogTest{ showDialog = !showDialog }
 ```
 
 
@@ -243,34 +329,57 @@ fun Example(@DrawableRes drawableId: Int){
 
 
 
-## Compose中获取Context
-
-```kotlin
-val context = LocalContext.current as Activity //这样做可能会有安全隐患
-
-//google官方例子有这样一个方法
-/**
- * Find the closest Activity in a given Context.
- */
-fun Context.findActivity(): Activity {
-    var context = this
-    while (context is ContextWrapper) {
-        if (context is Activity) return context
-        context = context.baseContext
-    }
-    throw IllegalStateException("Permissions should be called in the context of an Activity")
-}
-//使用方法
-val context = LocalContext.current
-val activity = context.findActivity()
-```
-
 ## kotlin通配符
 
 ```kotlin
 //通配符在类中使用应写在类名后，在方法中使用应写在方法名前
 fun <T>navigation(context: Context, className: Class<T>){
     context.startActivity(Intent(context, className))
+}
+```
+
+
+
+# Android控件在kotlin使用方法
+
+### DatePickerDialog
+
+```kotlin
+private var selectedYear = 0
+private var selectedMonth = 0
+private var selectedDay = 0
+val calendar: Calendar = Calendar.getInstance()
+
+fun showCalendarDialog(){
+    var year = calendar.get(Calendar.YEAR)
+    var month = calendar.get(Calendar.MONTH)
+    var day = calendar.get(Calendar.DAY_OF_MONTH)
+
+    val listener = DatePickerDialog.OnDateSetListener { datePicker, selectedYear, selectedMonth, selectedDay ->
+        year = selectedYear
+        month = selectedMonth
+        day = selectedDay
+    }
+
+    // create picker
+    val datePicker = DatePickerDialog(this, listener, year, month, day)
+    datePicker.show()    
+}
+
+//Compose则只需要将dataPicker作为参数传入即可
+override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    	setContent {
+        ExampleTheme {
+            showCalendarDialog(datePicker)
+        }
+    }
+}
+@Composable
+fun showCalendarDialog(datePicker: DatePickerDialog){
+    Button(onClick = { /*TODO*/ }) {
+            Text(text = "日历")
+        }
 }
 ```
 

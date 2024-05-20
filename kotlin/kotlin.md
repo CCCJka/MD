@@ -7,7 +7,6 @@
 ```
 Kotlin中T.()->Unit 、(T) -> Unit 、()->Unit
 这三个都是函数，返回值为unit，可以返回其他值，这里返回Unit只是为了方便理解
-
 T.()->Unit：函数体中可以直接使用T代表的对象，即用this访问T代表的对象。
 (T) -> Unit：将T表示的对象作为实参通过函数参数传递进来，函数体中可以通过参数来访问T代表的对象。
 () -> Unit：和T表示的对象没有直接联系，就是一个普通的函数，没有参数。
@@ -52,7 +51,7 @@ val function : (String) -> String = { name ->
 }
 function("Test");
 //it关键字，当只有一个参数时可以使用,一个以上就不能使用了
-val function : (String) -> String = {	//这里会默认有it，可以不用写name ->
+val function : (String) -> String = { //这里会默认有it，可以不用写name ->
     val str = "world"
     "$name,hello $str"
 }
@@ -102,7 +101,7 @@ private fun showOnBoard(goodsName:String, getDiscountWords:(String,Int) -> Strin
 }
 //函数类型作为返回类型，也就是定义一个可以返回函数的函数
 fun main(){
-    val getDiscountWords = coinfgDiscountWords()
+    val getDiscountWords = configDiscountWords()
     printf(getDiscountWords("张三"))
 }
 fun configDiscountWords():(String) -> String{
@@ -119,7 +118,7 @@ fun configDiscountWords():(String) -> String{
 能接收函数或者返回函数的函数又叫做高级函数，高级函数广泛引用于函数式编程当中
 
 #### lambda与匿名内部类:
-函数类型能少些很多模 式化代码，写出更灵活的代码。java8支持面向对象编程和lambda表达式，但不支持将函数作为参数传给另一个函数或变量，不过java的替代方案是匿名内部类
+函数类型能少些模式化代码，写出更灵活的代码。java8支持面向对象编程和lambda表达式，但不支持将函数作为参数传给另一个函数或变量，不过java的替代方案是匿名内部类
 
 #### 声明变量：
 
@@ -222,7 +221,6 @@ if(age in 0..3){
 }
 //或者
 if (age !in 1..3){
-    ...
 }
 
 //when表达式
@@ -631,7 +629,7 @@ if(extend is ExtendTest){
 
 ```
 
-#### 对象：Object关键字,可以定义一个单例。使用Object有三种方式，对象声明，对象表达式，伴生对象
+## 对象：Object关键字,可以定义一个单例。使用Object有三种方式，对象声明，对象表达式，伴生对象
 
 + 对象声明
 ```kotlin
@@ -675,7 +673,7 @@ fun main(){
 }
 ```
 
-#### 嵌套类：一个类嵌套在另一个类中,如果一个类只对另外一个类有作用，那么嵌套类是合乎逻辑的。
+## 嵌套类：一个类嵌套在另一个类中,如果一个类只对另外一个类有作用，那么嵌套类是合乎逻辑的。
 
 ```kotlin
 class Example{
@@ -691,20 +689,32 @@ fun main(){
 }
 ```
 
-#### 数据类：使用data关键字声明,数据类提供了toString的个性化实现
+## 数据类：使用data关键字声明,数据类提供了toString的个性化实现，常用于保存JSON数据
 
 ```kotlin
-data class dateClass(var data:Int){
+data class DateClass(var data:Int){
     val isData = data > 0
 }
+//在数据类中创建Copy函数，在使用数据类时可用使用该函数，同时也可用在使用该函数时修改复制的值
+fun copy(data: Int) = dataClass(data)	
+
+data class Pair<out A, out B>(val first: A, val Second: B){	//
+    override fun toString(): String = "($first,$Second)"    //重载toString函数，默认无参数则输出参数A和B
+}
+//Kotlin允许在不使用括号和点号的情况下调用函数，那么这种函数被称为 infix函数。
+public infix fun <A, B> A.to(that: B): Pair<A, B> = Pair(this, that)
+public fun <T> Pair<T, T>.toList(): List<T> = listOf(first, second)	//转换
+```
+
+```kotlin
 fun main(){
-    println(dataClass(1))
+    println(DateClass(1))
     //如果不使用data关键字，那么输出的是dataClass@xxxx
     //加上了data关键字输出为dataClass(data = 1)
 }
 //copy函数，用来复制一个对象。除了赋的值不一样，其他的都是一样的。copy不会使用次构造函数，如果需要更改需要手动赋值 
-val example = Example("张三")
-val copy = example.copy("李四")	
+val dataClass = DateClass(1)
+val copy = dataClass.copy(2)	
 //解构声明，如果定义一个数据类，他会自动为所有定义在主构造函数的属性添加相应的组件函数
 class Example(val str:String){
     operator fun component1() = str		//必须命名component1，不能为component0
@@ -788,7 +798,7 @@ fun main(){
 }
 ```
 
-#### 接口定义：
+## 接口定义：
 
 ```kotlin
 //kotlin所有的接口属性和函数实现都要使用override关键字，接口中定义的函数不需要open，默认就是open
@@ -820,7 +830,7 @@ interface Movable{
 }
 ```
 
-#### 抽象类：
+## 抽象类：
 
 ```kotlin
 //定义抽象类需要加上abstract关键字。与java没什么差别
@@ -909,11 +919,11 @@ fun main(){
 #### out协变、in逆变、invariant不变
 
 ```kotlin
-//out协变。如果泛型类只将泛型类型作为函数的返回，那么使用out可以称之为生产类，主要用来生产指定的泛型对象
+//out协变。如果泛型类只将泛型类型作为函数的返回，那么使用out可以称之为生产类，主要用来生产指定的泛型对象	out也可用理解为只能读取值，无法存储值
 interface Production<out T>{
     fun product():T
 }
-//in逆变。如果只将泛型类型作为函数的参数入参，那么可以使用in，称之为消费类/接口，主要用来消费指定的泛型对象
+//in逆变。如果只将泛型类型作为函数的参数入参，那么可以使用in，称之为消费类/接口，主要用来消费指定的泛型对象	in可用理解为将值进行存储
 interface Consumer<in T>{
     fun product(item:T)
 }
@@ -923,7 +933,7 @@ interface ProductionConsumer<T>{
     fun Consume(item:T)
 }
 //Example
-open class Food
+open class Food	//开放继承的基类
 open class FastFood:Food()
 class Burger:FastFood()
 //out范例
@@ -968,7 +978,7 @@ fun main(){
     val production3:Production<Food> = BurgerFactory()
     //子类泛型对象赋值给父类泛型对象使用out
     val consumer1:Consumer<Burger> = EveryBody()
-    val consumer2:Consumer<Burger> = ModernPeople()、
+    val consumer2:Consumer<Burger> = ModernPeople()
     //将Burger修改为Food后报错，因为in只能父类赋值给子类
     val consumer3:Consumer<Burger> = American()
     //父类泛型对象赋值给子类泛型对象使用in
@@ -1003,9 +1013,48 @@ fun main(){
 
 ### 协程
 
+- **viewModelScope** 是预定义的 **CoroutineScope**，包含在 **ViewModel** KTX 扩展中。请注意，所有协程都必须在一个作用域内运行。一个 **CoroutineScope**管理一个或多个相关的协程。
+- **launch** 是一个函数，用于创建协程并将其函数主体的执行分派给相应的调度程序。
+- **Dispatchers.IO** 指示此协程应在为 I/O 操作预留的线程上执行。
+- select,channel
+
 ```kotlin
 GlobalScope.launch(context = Dispatchers.IO){
             //TODO
         }
 ```
+
+## Kotlin 函数
+
+##### 前置判断
+
+check( xx ) ： 当判断值位非真时抛出一个非法状态异常后结束程序
+
+require( xx ) ：监测值为false时候，执行括号内容并抛出非法参数异常；若为true时候，则直接跳过括号，运行下面代码。
+
+requireNotNull( xx )：  若为null，抛出非法参数异常。若非Null则跳过花括号，直接运行到 end 。
+
+```kotlin
+Boolean value = true;
+
+//check Example，
+check(value){
+    System.out.println("为false则执行该行后退出程序");
+}
+System.out.println("为false时不执行该行");
+
+//require Example
+require(value){
+    System.out.println("为false时抛出异常");
+}
+System.out.println("为true时跳过require后的输出语句直接执行该行");
+
+//requireNotNull Example
+requireNotNull(){
+    System.out.println("为null时执行该行语句");
+}
+System.out.println("为true时跳过括号内的句子，执行该行语句");
+```
+
+
 
