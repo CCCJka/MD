@@ -31,7 +31,7 @@ val activity = context.findActivity()
 - 处理用户输入
 - 添加信息，如无障碍标签
 
-## Compose有3哥基本标准布局元素，分别为Column，Row，Box可组合项
+## Compose有3个基本标准布局元素，分别为Column，Row，Box可组合项
 
 + **<font color = "yellow" >Box</font>**类似与framLayout布局
 

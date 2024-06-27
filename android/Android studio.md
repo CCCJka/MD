@@ -636,3 +636,130 @@ JSON的两种格式：
           ```
 
 ## CountDownLatch可以使一个获多个线程等待其他线程各自执行完毕后再执行。
+
+
+
+### 反射
+
+通过使用反射可以调用该类内的方法，变量
+
+```java
+//获取class类的三种方法
+Class<?> cls = Main.class;	//第一种方法
+Class cls = Class.forName("packageName");	//第二种方法
+Class cls = getClass().getClassLoader().loadClass("packageName"); //第三种方法
+```
+
+### 构造器
+
+常用获取构造器的方法
+
+```java
+Constructor constructor = class.getConstructor(String.class, int.class);//该方法只能获取到public修饰的方法
+Constructor constructor = class.getDeclaredConstructor(String.class, int.class);//该方法可以获取所有修饰符的方法
+Constructor[] constructor = class.getConstructors();	//该方法获取到所有修饰符为public的方法
+Constructor[] constructor = class.getDeclaredConstructors();	//该方法获取到所有方法
+```
+
+### 代理模式
+
+静态代理模式
+
+```java
+public interface Example(){
+    void run();
+}
+//被委托类
+public class ImplExample implements Example {
+    @Override
+    public void run(){
+        System.out.println("run final");
+    }
+}
+//委托对象
+public class ProxyExample implements Example{
+    private Example example;
+    
+    public ProxyExample(Example example){	//构造函数
+        this.example = example;
+    }
+    
+    @Override
+    public void run(){
+        System.out.println("run first");
+        example.run();
+    }
+}
+//实现
+public class Main{
+    public void Main(){
+        Example firstRun = new ImplExample();
+        Example secondRun = new ProxyExample(firstRun);
+        secondRun.run();
+    }
+}
+```
+
+动态代理模式
+
+```java
+Example example = new ImplExample();
+Example proxyExample = (Example) Proxy.newProxyInstance(example.getClass().getClassLoader(),
+        example.getClass().getInterfaces(),
+        new InvocationHandler() {
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if ("run".equals(method.getName())){
+            System.out. println("动态代理");
+            Object result = method.invoke(example, args);
+            return result;
+        }
+        return null;
+    }
+});
+proxyExample.run();  //创建动态代理
+```
+
+
+
+
+
+```java
+//测试手机 红米K30S
+//这行代码相当于是弹框获取权限，只是在AndroidmaniFest配置的话有时是获取不到相应的权限的
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[] {Manifest.permission.CAMERA}, 1);
+            }
+        }
+
+//以下是获取可用的相机有哪些，工业板卡的话有Camera.CameraInfo.CAMERA_FACING_BACK和CAMERA_FACING_FRONT这两个摄像头。有时候在工业板卡中这两个都是前置摄像头
+//在安卓手机中，如果正常获取的摄像头无法使用可以尝试使用以上两个。Back是后置摄像头，Front是前置摄像头
+        int cameraId = -1;
+        int numberOfCameras = Camera.getNumberOfCameras();
+        for (int i = 0; i <= numberOfCameras; i++) {
+            Camera.CameraInfo info = new Camera.CameraInfo();
+            Camera.getCameraInfo(i, info);
+            if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                cameraId = i;
+                break;
+            }
+        }
+        myCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+//*****************************************************************************************
+//开启闪光灯的方法，必须要使用Camera.CameraInfo.CAMERA_FACING_BACK，使用前置摄像头的话会闪退或者报错error 2
+    try {
+    Camera.Parameters mParameters = myCamera.getParameters();
+    mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+    myCamera.setPreviewTexture(new SurfaceTexture(0));//这行必须要，没有这行就没办法开启闪光灯
+    myCamera.setParameters(mParameters);
+    myCamera.startPreview();
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+//*****************************************************************************************
+//关闭闪光灯
+    Camera.Parameters mParameters = myCamera.getParameters();
+    mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+    myCamera.setParameters(mParameters);
+```
