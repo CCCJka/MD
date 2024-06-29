@@ -45,18 +45,36 @@ public void getApiTest(@PathVariable int id){
 
 ## PostMapping
 
-```java
+在PostMan中请求是选择Body中的raw，传入JSON进行请求
 
+```java
+@PostMapping("/postApi")
+public void postApiTest(@RequestBody PostBody postBody){
+    //RequestBody注解在函数中只能存在一个
+    //post请求获取到的JSON字符串默认不解析，当使用RequestBody的注解后会解析为该类
+}
 ```
 
 ## PutMapping
 
-```java
+put与post相像
 
+```java
+@PutMapping("/putApi")
+public void putApiTest(@RequestBody PutBody putBody){
+    //RequestBody注解在函数中只能存在一个
+    //post请求获取到的JSON字符串默认不解析，当使用RequestBody的注解后会解析为该类
+}
 ```
 
 ## DeleteMapping
 
+delete与get相像，需要传入参数才能进行相应的操作
+
 ```java
+@DeleteMapping("/deleteApi/{id}")
+public void deleteApiTest(@PathVariable int id){
+    //TODO
+}
 ```
 
