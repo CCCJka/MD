@@ -1,5 +1,6 @@
 ```html
 HTML 中的 Javascript 脚本代码必须位于 <script> 与 </script> 标签之间。
+如果使用script标签时引用外部文件，那么在标签内不可编写方法以及变量
 Javascript 脚本代码可被放置在 HTML 页面的 <body> 和 <head> 部分中。
 ```
 
@@ -12,7 +13,11 @@ alert("我的第一个 JavaScript");
 </script>
 ```
 
-在body中使用script则会在body加载时写入信息
+## DOM：Document Object Model
+
+使用全局变量Document
+
+在body中使用script则会在body加载时写入信息，不可在最后使用write，这样会覆盖文档，将页面元素修改为写入的内容
 
 ```html
 <!DOCTYPE html>
@@ -26,7 +31,14 @@ document.write("<p>这是一个段落</p>");
 </html>
 ```
 
-js函数写法如下
+innerText以及innerHtml
+
+```javascript
+//使用innerText时无法在写入的内容中插入元素
+document.getElementById("xxx").innerText = "写入的内容，<p>无法写入元素</p>"
+//使用innerHtml时可在内容中插入新增的元素
+document.getElementById("xxx").innerHtml = "写入的内容，<p>写入元素成功</p>"
+```
 
 如果需要访问某个html元素，则可以通过 **document.getElementById(*id*) **
 
@@ -39,6 +51,8 @@ function myFunction(){
 <!-- 使用方法如下 -->
 <p id="demo">一个段落</p>	<!-- 将该段落id命名为demo，并在js函数中指定该段落，也就是document.getElementById("demo") -->
 <button type="button" onclick="myFunction()">尝试一下</button>	<!-- 使用onclick指定方法，点击后及那个id为demo的段落修改为函数指定的文字 -->
+<!-- 也可以在onclick中编写代码，例如 -->
+<button type="button" onclick="document.getElementById('demo').innerHTML='修改后的文字'"
 ```
 
 <font color = "yellow">js函数通常可以放在head、body或者作为外部文件引用， 当作为外部文件进行引用时写法如下</font>
@@ -47,7 +61,12 @@ function myFunction(){
 <script src="myScript.js"></script>
 ```
 
-<font color="yellow">当作为外部文件时，不可使用<script>标签 </font>
+```html
+<button type="button" onclick="changeText(this)">点击</button></button>	<!-- this为该元素 -->
+<script>
+    function changeText(id){id.innerHTML = "修改文本"}	//修改指定id的文本
+</script>
+```
 
 
 
@@ -116,3 +135,8 @@ var person = {firstName:"John", lastName:"Doe"};  // Object 通过对象字面�
 typeof "test"	//返回String
 ```
 
+
+
+## BOM：Browser Object Model
+
+使用全局变量window
