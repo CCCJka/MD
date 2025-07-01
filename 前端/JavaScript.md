@@ -135,8 +135,142 @@ var person = {firstName:"John", lastName:"Doe"};  // Object 通过对象字面�
 typeof "test"	//返回String
 ```
 
+## onmouseover、onmouseout、onmouseup、onmousedown
+
+鼠标在目标元素时的操作，例如
+
+```html
+<div onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">鼠标操作</div>
+<div onmouseup="mousseUp(this)" onmousedown="mouseDown(this)">鼠标点击元素操作</div>
+<script>
+	function mouseOver(obj){obj.innertHTML="鼠标位于元素上"}
+    function mouseOut(obj){obj.innerHTML="鼠标移开该元素"}
+    function mousseUp(obj){obj.innerHTML="鼠标点击后松开"}
+    function mouseDown(obj){obj.innerHTML="鼠标点击"}
+</script>
+```
+
+### 元素监听
+
+```html
+<button id="xxxx">click</button>
+<p id="demo"></p>
+<script>
+    function displayData(){
+        document.getElementById("demo").innerTEXT = Data();
+    }
+    document.getElementById("xxxx").addEventListener("click", displayDate);	//click可为各类函数，例如onmouseout
+</script>
+```
+
+### 事件冒泡和事件捕获
+
+事件冒泡
+
++ 在冒泡中，内部元素的事件会先被触发，然后再触发外部元素，即： <p> 元素的点击事件先触发，然后会触发 <div> 元素的点击事件。
+
+事件捕获
+
++ 在捕获中，外部元素的事件会先被触发，然后才会触发内部元素的事件，即： <div> 元素的点击事件先触发 ，然后再触发 <p> 元素的点击事件。
+
+### 代码添加新元素
+
+appendChild()：要创建新的 HTML 元素 (节点)需要先创建一个元素，然后在已存在的元素中添加它。该函数创建的元素位于父元素的尾部
+
+insertBefore()：该函数创建的元素位于父元素的头部
+
+removeChild()：该函数可移除指定元素
+
+replaceChild()：该函数可替换指定元素
+
+```html
+<div id="parent">
+	<p id="p1"></p>
+</div>
+
+<script>
+    let endElement = document.createElement("ep");
+    let endNode = document.createTextNode("这是一个新建的尾部段落。");
+    endElement.appendChild(endNode);	//将文本添加到新创建的尾部元素
+	
+    let startElement = document.createElement("sp");
+    let startNode = document.createTextNode("这是一个新建的头部段落")
+    startElement.appendChild(startNode);	//将文本添加到新创建的头部元素
+	
+    var element = document.getElementById("parent");
+	var p1 = document.getElementById("p1");
+    element.appendChild(endElement);
+    element.insertBefore(startElement, p1);	//将元素添加到指定元素的头部
+    
+    element.removeChild(startElement);		//删除新创建的startElement元素
+    element.replaceChild(startElement, p1)	//将指定元素替换
+</script>
+```
+
+## HTMLCollection
+
+getElementByTagName()返回一个HTMLCollection对象,例如getElementByTagName("p")会返回一个所有p标签的对象
+
+HTMLCollection有 **length** 属性，该属性为对象的长度
+
+HTMLCollection并非为一个数组，但他可以向数组一样使用索引获取长度，但无法使用数组的方法： valueOf(), pop(), push(), 或 join() 
+
+## NodeList
+
+```html
+<script>
+    var list = document.querySelectorAll("p");
+    list[0].style.background-color = "red"	//将list中的0位元素修改背景为红色
+</script>
+```
+
+**NodeList** 对象是一个从文档中获取的节点列表 (集合) 。NodeList 对象类似 HTMLCollection 对象。
+
+## HTMLCollection于NodeList的区别
+
+HTMLCollection 元素可以通过 name，id 或索引来获取，NodeList 只能通过索引来获取。只有 NodeList 对象有包含属性节点和文本节点。
+
 
 
 ## BOM：Browser Object Model
 
-使用全局变量window
+```
+所有浏览器都支持 window 对象。它表示浏览器窗口。
+所有 JavaScript 全局对象、函数以及变量均自动成为 window 对象的成员。
+全局变量是 window 对象的属性。
+全局函数是 window 对象的方法。
+甚至 HTML DOM 的 document 也是 window 对象的属性之一：
+window.document.getElementById("header") 于 document.getElementById("header") 相等
+```
+
+## Window 尺寸
+
+有三种方法能够确定浏览器窗口的尺寸。
+
+对于Internet Explorer、Chrome、Firefox、Opera 以及 Safari：		对于 Internet Explorer 8、7、6、5：					或者
+
+- window.innerHeight - 浏览器窗口的内部高度(包括滚动条)			document.documentElement.clientHeight		document.body.clientHeight
+- window.innerWidth - 浏览器窗口的内部宽度(包括滚动条)             document.documentElement.clientWidth          document.body.clientWidth
+
+## 其他 Window 方法
+
+- window.open() - 打开新窗口
+- window.close() - 关闭当前窗口
+- window.moveTo() - 移动当前窗口
+- window.resizeTo() - 调整当前窗口的尺寸
+
+## window.screen 对象在编写时可以不使用 window 这个前缀。
+
+- screen.availWidth - 可用的屏幕宽度
+- screen.availHeight - 可用的屏幕高度
+
+## Location
+
+window.location 对象用于获得当前页面的地址 (URL)，并把浏览器重定向到新的页面。
+
+- location.hostname 返回 web 主机的域名
+- location.pathname 返回当前页面的路径和文件名
+- location.port 返回 web 主机的端口 （80 或 443）
+- location.protocol 返回所使用的 web 协议（http: 或 https:）
+- location.href 属性返回当前页面的 URL。
+- location.assign() 方法加载新的文档。

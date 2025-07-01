@@ -396,6 +396,33 @@ fun main(){
 }
 ```
 
+#### 内联函数
+
+```kotlin
+inline fun <T> myInlineFunction(block: () -> T): T {
+    println("Before calling block")
+    val result = block()	//被调用时执行的内容
+    println("After calling block")
+    return result
+}
+//使用内联函数
+fun main() {
+    val result = myInlineFunction {
+        println("This is the block of code")	//调用函数后作为参数block所执行的内容
+        42
+    }
+    println("Result: $result")
+}
+/*	实际输出
+before calling block
+This is the block of code	这一行就是在调用内联函数时函数内作为参数的block所打印的内容
+After calling block
+Result: 42
+*/
+```
+
+
+
 
 
 #### 集合：list允许可重复元素，set不允许可重复元素。也就是list是有序可重复，set是无序不重复
