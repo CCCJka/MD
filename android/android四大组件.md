@@ -190,11 +190,29 @@ Service是安卓里非常很重要的组件，它的地位和优先级别是与�
 2）startService()与bindService()区别：
 
 - started service（启动服务）是由其他组件调用startService()方法启动的，这导致服务的onStartCommand()方法被调用。当服务是started状态时，其生命周期与启动它的组件无关，并且可以在后台无限期运行，即使启动服务的组件已经被销毁。因此，服务需要在完成任务后调用stopSelf()方法停止，或者由其他组件调用stopService()方法停止。
+
+  - startService的生命周期如下
+
+  - ```java
+    startService() → onCreate() → onStartCommand() → [服务运行] → stopService()/stopSelf() → onDestroy()
+    ```
+
 - 使用bindService()方法启用服务，调用者与服务绑定在了一起，调用者一旦退出，服务也就终止，大有“不求同时生，必须同时死”的特点。
+
+  - bindService的生命周期如下
+
+  - ```java
+    bindService() → onCreate() → onBind() → [服务绑定运行] → unbindService() → onUnbind() → onDestroy()
+    ```
+
 
 3）开发人员需要在应用程序配置文件中声明全部的service，使用<service></service>标签。
 
-4）Service通常位于后台运行，它一般不需要与用户交互，因此Service组件没有图形用户界面。Service组件需要继承Service基类。Service组件通常用于为其他组件提供后台服务或监控其他组件的运行状态。
+4）Service通常位于后台运行，它一般不需要与用户交互，因此Service组件没有图形用户界面。Service组件需要继承Service基类。Service组件通常用于为其他组件提供后台服务或监控其他组件的运行状态。 
+
+5）可在Application中bindService成功后再解绑就行绑定预热，这样可加快服务启动的速度
+
+6）可以先执行startService后再进行bindService，比较推荐该操作。这样可以同时享有两种方式的好处，但需要更注意生命周期的问题
 
 # **3、content provider（内容提供商）**
 
