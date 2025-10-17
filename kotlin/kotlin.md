@@ -1085,3 +1085,95 @@ System.out.println("为true时跳过括号内的句子，执行该行语句");
 
 
 
+## 关键字委托
+
+**by**
+
+如果需要从另一个类中获取一些数据，但是又不想在当前类中new一个新的对象，那么可以使用**by**关键字进行操作而不依赖注入
+
+```kotlin
+fun main(){
+    ExampleService(ExampleImple()).getData()
+}
+interface ExampleDao(){
+    fun getData(): String
+}
+class ExampleImpl: ExampleDao{
+    override fun getData(): String = "data"
+}
+//可以进行多个不同的委托
+//无法委托给实现了抽象类或者普通类的类，一半用在实现接口中使用
+class ExampleService(impl: ExampleEmpl): Example by ExampleImpl{
+    fun getDbData(): String{
+        return "DbData"
+    }
+}
+```
+
+**属性的委托**
+
+属性委托是调用委托类中实现的**get set**方法
+
+```kotlin
+fun main(){
+    var test: String by TestClass()
+    test = "changeString"//此时changeVar的值已经被修改为ChangeString
+    A().apply{
+        aTest = "changeToA"	//此时changeVar的值已经被修改为ChangeToA
+    }
+}
+class A{
+    var aTest: String by TestClass()
+}
+//实现属性元数据都会实现的生成get set的接口
+//此时TestClass实现的接口任何类都可用，所以写入Nothing
+class TestClass: ReadWriteProperty<Noting?, String>{
+    private var changeVar = ""
+    override fun getValue(thisRef: Nothing?, property: KProperty<*>): String = changeVar
+	override fun setValue(thisRef: Nothing?, property: KProperty<*>, value: String){
+        changeVar = value
+    }
+}
+//ReadWriteProperty<Nothing?, String>  其中的Nothing可以指定可以使用的类例如A，也可以使用Any允许所有类使用（类似java中的Object）
+//此时TestClass实现的接口只允许类A使用，所以写入A
+class TestClass: ReadWriteProperty<A, String>{
+    private var changeVar = ""
+    override fun getValue(thisRef: A, property: KProperty<*>): String = changeVar
+	override fun setValue(thisRef: A, property: KProperty<*>, value: String){
+        changeVar = value
+    }
+}
+```
+
+**延迟委托**
+
+延迟委托会调用get方法先判断该值是否已经初始化，如果初始化则返回值，未初始化则使用一个锁（防止多个线程同时访问该属性导致多次初始化）锁定属性，再次判断是否初始化，已经初始化则返回值，未初始化则将未初始化的值返回给属性
+
+```kotlin
+fun mina(){
+    //初始化
+    val test by lazy{
+        //初始化Test
+        "test"	//返回test
+    }
+    //初始化时会缓存操作，如果初始化操作过多，那么只会执行第一次初始化，后续的操作后只会返回值
+    val test: String by lazy{
+        println("1")
+        println("1")
+        println("1")
+        println("1")
+        println("1")
+        //只会在第一次初始化的时候执行以上操作
+        "test"
+    }
+    
+    //监听委托,
+    var test by Delegates.observable("test"){_, oldValue, newValue ->
+		println("oldvalue=$oldValue newValue=$newValue")
+    }
+    test = "hello"
+    println(test)
+    //先打印oldValue=test newValue=hello,后打印hello
+}
+```
+
